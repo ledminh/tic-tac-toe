@@ -1,18 +1,45 @@
-// import { useReducer } from "react";
+import { Reducer, useReducer } from "react";
+import { StateData, ActionType, GameType } from "../typesAndInterfaces";
+import { initState } from "./states";
 
-// const initState = {};
-
-// function reducers(state, action) {
-
-// }
+import * as LocalStorage from '../LocalStorage';
 
 
+const reducer:Reducer<StateData, ActionType> = (state, action)  => {
+    switch(action.type) {
+        
+    }
+
+    return state;
+
+}
 
 
-// export default function useData() {
 
-//     const [state, dispatch] = useReducer(reducers, initState);
-// }
+
+
+export default function useData() {
+
+    const [state, dispatch] = useReducer(reducer, initState);
+
+    const loadData = (type:GameType, X: 'player1' | 'player2' | 'CPU') => {
+        let O = '';
+
+        if(X === 'player2' || X === 'CPU') {
+            O = 'player1';
+        }
+        else if(type === 'vsCPU' ) {
+            O = 'CPU';
+        }
+        else {
+            O = 'player2';
+        }
+        
+
+        LocalStorage.loadData(type);
+    }
+
+}
 
 
 
