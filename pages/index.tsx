@@ -11,7 +11,6 @@ const Home: NextPage = () => {
         <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
         <title>Frontend Mentor | Tic Tac Toe</title>
       </Head>
-
     </>
   )
 }
