@@ -36,7 +36,9 @@ export default function useData() {
         }
         
 
-        LocalStorage.loadData(type);
+        const data = LocalStorage.loadData(type);
+
+        
     }
 
 }

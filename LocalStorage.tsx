@@ -6,23 +6,16 @@ import { GameType, LocalStorageData } from "./typesAndInterfaces"
 
 /*
     loadData is called when:
-        -   At the beginning, right after user press NewGameButton on StartScreen 
-        -   After user press NewGameButton after finish a game
-        -   After user press NewGameButton after press Restart button
-        -   After user open the app again and it is in a middle of the game when the user leave.
+        -   Start game: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
+        -   Start a new game: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
+        -   Restart: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
+        -   In a middle of a game.
 */
 
-export const loadData: (type:GameType) => LocalStorageData['vsCPU'] | LocalStorageData['vsPlayer']= (type: GameType) => {
+export const loadData: (type:GameType) => LocalStorageData['vsCPU'] | LocalStorageData['vsPlayer'] | null = (type: GameType) => {
+    const strData = localStorage.getItem('tictactoeData');
+    
+    if(strData === null) return null;
 
-     
-    return {
-        turn: null,
-        X: null,
-        O: null,
-        gameOverStatus: null,
-        boardState: null,
-        player1Wins: 0,
-        player2Wins: 0,
-        ties: 0,
-    }
+    return JSON.parse(strData)[type];
 }
