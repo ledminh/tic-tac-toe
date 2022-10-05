@@ -20,7 +20,7 @@ export const UIContext = React.createContext<uiControlType>(defaultUIControl);
 
 const useUI = () => {
     //Modals
-    const [showGameOverModal, setShowGameOverModal] = useState(true);
+    const [showGameOverModal, setShowGameOverModal] = useState(false);
     const [showRestartModal, setShowRestartModal] = useState(false);
 
 
