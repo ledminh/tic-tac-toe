@@ -12,6 +12,7 @@ const RestartModal:FunctionComponent<{showModal: boolean, setShowModal: (show:bo
         <Modal onClose={() => setShowModal(false)}
                 show={showModal}
         >
+            <span>Restart</span>
             
         </Modal>
     )

@@ -12,7 +12,7 @@ const GameOverModal:FunctionComponent<{showModal: boolean, setShowModal: (show:b
         <Modal onClose={() => setShowModal(false)}
                 show={showModal}
         >
-            
+            <span>GameOver</span>
         </Modal>
     )
 }
