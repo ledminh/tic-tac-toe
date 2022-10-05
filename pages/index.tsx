@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         <title>Frontend Mentor | Tic Tac Toe</title>
       </Head>
       <Contexts>
-        <main>
+        <main className={styles.main}>
           <StartScreen />
           <MainScreen />
         </main>
