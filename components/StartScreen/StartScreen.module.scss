@@ -15,7 +15,7 @@
     box-shadow: inset 0px -8px 0px #10212A;
 
     padding: 1.5rem;
-
+    margin-bottom: 2.5rem;
     .title {
         display: inline-block;
         color: base.$color7;
@@ -33,6 +33,7 @@
         justify-content: space-between;
 
         padding: 9px;
+        margin-bottom: 1rem;
     }
 
     .markButton {
@@ -64,4 +65,42 @@
         
         
     }
+
+    .reminder {
+        display: inline-block;
+        color: base.$color7;
+    }
+}
+
+.buttons {
+    button {
+        height: 4.2rem;
+        width: 100%;
+
+        border: none;
+        border-radius: 15px;
+
+        color: base.$color5;
+    }
+
+    .vsCPU {
+        background-color: base.$color3;
+        box-shadow:  inset 0px -8px 0px #CC8B13;
+        margin-bottom: 1.25rem;
+
+        &:hover {
+            background-color: base.$color4;
+        }
+    }
+
+    .vsPlayer {
+        background-color: base.$color1;
+        box-shadow:  inset 0px -8px 0px #118C87;
+    
+        &:hover {
+            background-color: base.$color2;
+        }
+    }
+
+    
 }

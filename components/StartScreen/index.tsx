@@ -41,11 +41,11 @@ const StartScreen:FunctionComponent = () => {
                         </div>
                     </button>
                 </div>
-                REMEMBER: X GOES FIRST
+                <span className={styles.reminder}>REMEMBER: X GOES FIRST</span>
             </section>
             <section className={styles.buttons}>
-                <button>NEW GAME (VS CPU)</button>
-                <button>NEW GAME (VS PLAYER)</button>
+                <button className={styles.vsCPU}><h3>NEW GAME (VS CPU)</h3></button>
+                <button className={styles.vsPlayer}><h3>NEW GAME (VS PLAYER)</h3></button>
             </section>
         </div>
     );
