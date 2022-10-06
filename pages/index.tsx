@@ -24,7 +24,7 @@ const Home: NextPage = () => {
       </Head>
       <Contexts>
         <main className={styles.main}>
-          <StartScreen />
+          {/* <StartScreen /> */}
           <MainScreen />
         </main>
         <Modals />
