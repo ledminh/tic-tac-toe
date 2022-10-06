@@ -1,6 +1,67 @@
+@use '../../styles/base';
+
 .startScreen {
     width: 93%;
+    min-width: 327px;
+    max-width: 460px;
     margin: auto;
 
     text-align: center;
+}
+
+.pickPlayer {
+    background-color: base.$color6;
+    border-radius: 15px;
+    box-shadow: inset 0px -8px 0px #10212A;
+
+    padding: 1.5rem;
+
+    .title {
+        display: inline-block;
+        color: base.$color7;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .markButtons {
+        background-color: base.$color5;
+        border-radius: 10px;
+
+        height: 72px;
+
+        display: flex;
+        justify-content: space-between;
+
+        padding: 9px;
+    }
+
+    .markButton {
+        width: 48%;
+
+        background-color: base.$color5;
+        border: none;
+        border-radius: 10px;
+
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+
+        &.current {
+            background-color: base.$color7;
+        }   
+    }  
+
+    .imgX,
+    .imgO {
+        display: inline-block;
+        
+
+        width: 32px;
+        height: 32px;
+        
+        
+    }
 }

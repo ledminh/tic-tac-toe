@@ -2,8 +2,8 @@ import { FunctionComponent } from "react";
 
 import Image from "next/image";
 
-import xIcon from '../../assets/icon-x.svg';
-import oIcon from '../../assets/icon-o.svg';
+import XIcon from '../../assets/icon-x.svg';
+import OIcon from '../../assets/icon-o.svg';
 
 import styles from './XOSign.module.scss';
 
@@ -12,15 +12,13 @@ const XOSign:FunctionComponent = () => {
     return (
         <div className={styles.xoSign}>
             <div className={styles.imgX}>
-                <Image 
-                    src={xIcon}
-                    alt="x mark"
+                <XIcon
+                    viewBox="0 0 64 64"
                 />
             </div>
             <div className={styles.imgO}>
-                <Image 
-                    src={oIcon}
-                    alt="o mark"
+                <OIcon
+                    viewBox="0 0 64 64"
                 />
             </div>
         </div>
