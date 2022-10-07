@@ -9,8 +9,10 @@
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    
 }
 
 
@@ -24,6 +26,7 @@
     border-radius: 5px;
     box-shadow: inset 0px -4px 0px #6B8997;
 
+    justify-self: right;
     &:hover {
         background-color: base.$color8;
     }

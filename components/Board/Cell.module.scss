@@ -1,8 +1,14 @@
 @use '../../styles/base';
 
 .cell {
-    width: 96px;
-    height: 96px;
+    width: 25.6vw;
+    height: 25.6vw;
+
+    max-width: 140px;
+    max-height: 140px;
+
+    min-width: 92px;
+    min-height: 92px;
 
     border-radius: 10px;
 
