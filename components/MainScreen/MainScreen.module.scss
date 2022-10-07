@@ -8,6 +8,13 @@
 
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
 .restartButton {
     background-color: base.$color7;
     border: none;

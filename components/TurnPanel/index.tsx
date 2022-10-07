@@ -16,12 +16,12 @@ const TurnPanel:FunctionComponent = () => {
                     fill="#A8A8A8"
                 />
             </div>
-            <div className={styles.imgO}>
+            {/* <div className={styles.imgO}>
                 <Osvg 
                     viewBox="0 0 66 66"
                     fill="#A8A8A8"
                 />
-            </div>
+            </div> */}
             <span className={styles.turn}>TURN</span>
         </div>
     );

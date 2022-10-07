@@ -1,5 +1,19 @@
+@use '../../styles/base';
+
 .turnPanel {
+    height: 2.5rem;
+    width: 8.75rem;
     color: #A8A8A8;
+    background-color: base.$color6;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    box-shadow: inset 0px -4px 0px #10212A;
+
+    margin-bottom: 1.25rem;
 }
 
 
@@ -12,5 +26,5 @@
     width: 16px;
     height: 16px;
     
-    
+    margin-right: 0.8125rem;
 }
