@@ -6,6 +6,8 @@ import TurnPanel from '../TurnPanel';
 import Board from '../Board';
 import ScorePanel from '../ScorePanel';
 
+import RestartIcon from '../../assets/icon-restart.svg';
+
 const MainScreen:FunctionComponent = () => {
 
     return (
@@ -13,7 +15,9 @@ const MainScreen:FunctionComponent = () => {
             <section className={styles.header}>
                 <XOSign/>
                 <TurnPanel/>
-                <button>RS</button>
+                <button className={styles.restartButton}>
+                    <RestartIcon/>    
+                </button>
             </section>
             <Board />
             <section className={styles.footer}>

@@ -1,7 +1,27 @@
+@use '../../styles/base';
+
 .mainScreen {
     width: 93%;
     min-width: 327px;
     max-width: 460px;
     margin: auto;
 
+}
+
+.restartButton {
+    background-color: base.$color7;
+    border: none;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 5px;
+    box-shadow: inset 0px -4px 0px #6B8997;
+
+    &:hover {
+        background-color: base.$color8;
+    }
+
+    &:active {
+        background-color: base.$color7;
+    }
 }

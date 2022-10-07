@@ -52,7 +52,9 @@
 
         &.current {
             background-color: base.$color7;
-        }   
+        }
+        
+        
     }  
 
     .imgX,
@@ -91,6 +93,10 @@
         &:hover {
             background-color: base.$color4;
         }
+
+        &:active {
+            background-color: base.$color3;            
+        }
     }
 
     .vsPlayer {
@@ -99,6 +105,10 @@
     
         &:hover {
             background-color: base.$color2;
+        }
+
+        &:active {
+            background-color: base.$color1;            
         }
     }
 
