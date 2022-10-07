@@ -1,20 +1,16 @@
-import { FunctionComponent } from "react";
-import { BoardState, CellState } from "../../typesAndInterfaces";
+import { FunctionComponent, useContext } from "react";
+import { DataContext } from "../../useData";
 
 import styles from './Board.module.scss';
 
 import Cell from "./Cell";
 
 
-const board:BoardState = [
-    ['X', 'X', 'X'],
-    ['O', 'O', 'empty'],
-    ['X', 'empty', 'O']
-]
 
 
 const Board:FunctionComponent = () => {
-
+    const {board} = useContext(DataContext);
+    
     return (
         <div className={styles.board}>
             {
