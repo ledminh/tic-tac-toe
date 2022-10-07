@@ -12,12 +12,21 @@ const Cell:FunctionComponent<{currentState:CellState}> = ({currentState}) => {
     
 
     return (
-        <div className={styles.Cell}>
+        <div className={styles.cell}>
             {
                 currentState === 'O'?
-                    <OIcon/>
+                    <div className={styles.OIcon}>
+                        <OIcon
+                            viewBox="0 0 64 64"
+                        />
+                    </div>
+                    
                     : currentState === 'X'?
-                    <XIcon/>
+                    <div className={styles.XIcon}>
+                        <XIcon
+                            viewBox="0 0 64 64"
+                        />
+                    </div>
                     : null
             }
         </div>

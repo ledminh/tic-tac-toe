@@ -1,0 +1,26 @@
+@use '../../styles/base';
+
+.cell {
+    width: 96px;
+    height: 96px;
+
+    border-radius: 10px;
+
+    background-color: base.$color6;
+    box-shadow: inset 0px -8px 0px #10212A;
+
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+
+}
+
+.XIcon,
+.OIcon {
+
+
+    width: 50%;
+    height: 50%;
+
+} 
