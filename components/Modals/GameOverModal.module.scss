@@ -1,0 +1,84 @@
+@use '../../styles/base';
+
+.line1 {
+    color: base.$color7;
+    font-size: 1rem;
+
+    margin-bottom: 1rem;
+}
+
+.line2 {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 1.5rem;
+
+    .icon {
+        width: 1.9rem;
+        height: 1.9rem;
+        
+        margin-right: .5rem;
+    }
+    
+    span {
+        font-size: 1.7rem;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        color: base.$color1;
+    }
+}
+
+.roundTies {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: base.$color7;
+
+    margin-bottom: 1.5rem;
+
+}
+
+.buttons {
+    display: flex;
+
+    justify-content: center;
+
+    button {
+        padding: 1rem; 
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.26rem;
+
+        border: none;
+        border-radius: 10px;
+    }
+}
+
+.quit {
+    margin-right: 1rem;
+
+    background-color: base.$color7;
+    box-shadow: inset 0px -4px 0px #6B8997;
+
+    &:hover {
+        background-color: base.$color8;
+    }
+
+    &:active {
+        background-color: base.$color7;
+    }
+}
+
+.nextRound {
+
+    background-color: base.$color3;
+    box-shadow: inset 0px -4px 0px #CC8B13;
+
+    &:hover {
+        background-color: base.$color4;
+    }
+
+    &:active {
+        background-color: base.$color3;
+    }
+}
