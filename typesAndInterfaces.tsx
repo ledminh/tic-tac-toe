@@ -49,3 +49,5 @@ export interface ActionType {
         X: 'player1' | 'player2' | 'CPU'
     }
 }
+
+export type ScorePanelType = 'X' | 'O' | 'TIES'; 

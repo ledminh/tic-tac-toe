@@ -21,9 +21,9 @@ const MainScreen:FunctionComponent = () => {
             </section>
             <Board />
             <section className={styles.footer}>
-                <ScorePanel />
-                <ScorePanel />
-                <ScorePanel />
+                <ScorePanel type={'X'}/>
+                <ScorePanel type={'TIES'}/>
+                <ScorePanel type={'O'}/>
             </section>
 
         </div>
