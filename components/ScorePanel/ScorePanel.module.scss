@@ -1,6 +1,15 @@
 @use '../../styles/base';
 
 .scorePanel {
+    width: 25.6vw;
+    height: 17vw;
+
+    max-width: 140px;
+    max-height: 72px;
+    
+    min-width: 92px;
+    min-height: 64px;
+
     display: flex;
 
     flex-flow: row wrap;
