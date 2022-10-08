@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BoardState } from "../typesAndInterfaces";
+import { BoardState, PlayerType } from "../typesAndInterfaces";
 
 const initBoard:BoardState = [
     ['empty', 'empty', 'empty'],
@@ -12,7 +12,9 @@ type DataType = {
     board: BoardState,
     numXWins: number,
     numOWins: number,
-    numTies: number
+    numTies: number,
+    XPlayer: PlayerType,
+    OPlayer: PlayerType
 }
 
 
@@ -21,7 +23,9 @@ const defaultData:DataType = {
     board: initBoard,
     numXWins: 0,
     numOWins: 0,
-    numTies: 0
+    numTies: 0,
+    XPlayer: 'player1',
+    OPlayer: 'player2'
 }
 
 export const DataContext = React.createContext<DataType>(defaultData);
@@ -34,14 +38,19 @@ const useData = () => {
     const [numTies, setNumTies] = useState<number>(0);
     const [numOWins, setNumOWins] = useState<number>(0);
 
+    const [XPlayer, setXPlayer] = useState<PlayerType>('player2');
+    const [OPlayer, setOPlayer] = useState<PlayerType>('CPU');
 
+    
 
     return {
         turn,
         board,
         numXWins,
         numOWins,
-        numTies
+        numTies,
+        XPlayer,
+        OPlayer
     }
 }
 
