@@ -14,7 +14,11 @@ const RestartModal:FunctionComponent<{showModal: boolean, setShowModal: (show:bo
         >
             <div className={styles.text}>RESTART GAME?</div>
             <div className={styles.buttons}>
-                <button className={styles.no}>NO, CANCEL</button>
+                <button className={styles.no}
+                    onClick={() => setShowModal(false)}
+                >
+                    NO, CANCEL
+                </button>
                 <button className={styles.yes}>YES, RESTART</button>
             </div>            
         </Modal>
