@@ -20,6 +20,8 @@ const Board:FunctionComponent = () => {
                             row.map((cellState, iC) => (
                                 <Cell key={iR + '-' + iC}
                                     currentState={cellState}
+                                    row={iR}
+                                    col={iC}
                                 />
                             ))
                         }
@@ -31,4 +33,3 @@ const Board:FunctionComponent = () => {
 }
 
 export default Board;
-

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, useContext } from "react"
 
 import { CellState } from "../../typesAndInterfaces"
 
@@ -6,13 +6,18 @@ import styles from './Cell.module.scss';
 
 import OIcon from '../../assets/icon-o.svg';
 import XIcon from '../../assets/icon-x.svg';
+import { DataContext } from "../../useData";
 
 
-const Cell:FunctionComponent<{currentState:CellState}> = ({currentState}) => {
+const Cell:FunctionComponent<{currentState:CellState, row: number, col:number}> = ({currentState, row, col}) => {
     
+    const {cellOnClickHandle} = useContext(DataContext);
+
 
     return (
-        <div className={styles.cell}>
+        <div className={styles.cell}
+            onClick={() => cellOnClickHandle(row,col)}
+            >
             {
                 currentState === 'O'?
                     <div className={styles.OIcon}>

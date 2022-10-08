@@ -27,6 +27,9 @@
     box-shadow: inset 0px -4px 0px #6B8997;
 
     justify-self: right;
+
+    cursor: pointer;
+    
     &:hover {
         background-color: base.$color8;
     }

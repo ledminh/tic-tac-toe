@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BoardState, GameType, MarkType, PlayerType } from "../typesAndInterfaces";
+import { BoardState, CellState, GameType, MarkType, PlayerType } from "../typesAndInterfaces";
 
 const initBoard:BoardState = [
     ['empty', 'empty', 'empty'],
@@ -16,7 +16,8 @@ type DataType = {
     numTies: number,
     XPlayer: PlayerType,
     OPlayer: PlayerType,
-    newGame: (g:GameType, m:MarkType) => void
+    newGame: (g:GameType, m:MarkType) => void,
+    cellOnClickHandle: (row:number,c:number) => void
 }
 
 
@@ -29,17 +30,19 @@ const defaultData:DataType = {
     numTies: 0,
     XPlayer: 'player1',
     OPlayer: 'player2',
-    newGame: (g,m) => {}
+    newGame: (g,m) => {},
+    cellOnClickHandle: (r,c) => {}
+
 }
 
 export const DataContext = React.createContext<DataType>(defaultData);
 
 const useData = () => {
     
-    const [isStarted, setIsStarted] = useState<boolean>(false);
+    const [isStarted, _setIsStarted] = useState<boolean>(false);
 
     
-    const [turn, setTurn] = useState<'X'|'O'>('X');
+    const [turn, _setTurn] = useState<'X'|'O'>('X');
     const [board, setBoard] = useState<BoardState>(initBoard);
 
     const [numXWins, setNumXWins] = useState<number>(0);
@@ -50,6 +53,20 @@ const useData = () => {
     const [OPlayer, setOPlayer] = useState<PlayerType>('CPU');
 
     
+    const _setCellState = (stateToSet:CellState, row: number, col:number) => {
+        const newBoard = board.map((r, iR) => r.map((c, iC) => {
+            if(iR === row && iC === col) {
+                return stateToSet;
+            }
+            else{
+                return c;
+            }
+        })) as BoardState;
+
+    
+        setBoard(newBoard);
+
+    }
     /***************************************/
     
     const newGame = (gameType:GameType, player1Mark:MarkType) => {
@@ -74,12 +91,18 @@ const useData = () => {
             }
         }
 
-        setTurn('X');
-        setIsStarted(true);
+        _setTurn('X');
+        _setIsStarted(true);
+    }
+
+    const cellOnClickHandle = (row:number, col:number) => {
+        if(board[row][col] === 'empty'){
+            _setCellState(turn, row, col);
+            _setTurn(turn === 'O'? 'X' : 'O');
+        }
     }
 
 
-    
     return {
         isStarted,
         turn,
@@ -89,7 +112,8 @@ const useData = () => {
         numTies,
         XPlayer,
         OPlayer,
-        newGame
+        newGame,
+        cellOnClickHandle
     }
 }
 
