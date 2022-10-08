@@ -1,18 +1,19 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import styles from '../styles/Home.module.scss'
 
 import StartScreen from '../components/StartScreen'
 import MainScreen from '../components/MainScreen';
 import Modals from '../components/Modals'
-import Contexts from '../Contexts'
+import { DataContext } from '../useData'
 
 
 const Home: NextPage = () => {
   
+  const {isStarted} = useContext(DataContext);
 
   return (
     <>
@@ -22,13 +23,14 @@ const Home: NextPage = () => {
         <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
         <title>Frontend Mentor | Tic Tac Toe</title>
       </Head>
-      <Contexts>
         <main className={styles.main}>
-          {/* <StartScreen /> */}
-          <MainScreen />
+          {
+            isStarted?
+              <MainScreen />
+              : <StartScreen />
+          }
         </main>
         <Modals />
-      </Contexts>
     </>
   )
 }

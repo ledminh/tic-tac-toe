@@ -1,14 +1,17 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useContext } from "react";
 import styles from './StartScreen.module.scss';
 
 import XOSign from "../XOSign";
 
 import Xsvg from '../../assets/icon-x-outline.svg';
 import Osvg from '../../assets/icon-o-outline.svg';
+import { DataContext } from "../../useData";
 
 
 const StartScreen:FunctionComponent = () => {
     const [player1Mark, setPlayer1Mark] = useState<'X'|'O'>('X');
+
+    const {newGame} = useContext(DataContext);
 
     return (
         <div className={styles.startScreen}>
@@ -44,8 +47,16 @@ const StartScreen:FunctionComponent = () => {
                 <span className={styles.reminder}>REMEMBER: X GOES FIRST</span>
             </section>
             <section className={styles.buttons}>
-                <button className={styles.vsCPU}><h3>NEW GAME (VS CPU)</h3></button>
-                <button className={styles.vsPlayer}><h3>NEW GAME (VS PLAYER)</h3></button>
+                <button className={styles.vsCPU}
+                    onClick={() => newGame('vsCPU', player1Mark)}
+                    >
+                        <h3>NEW GAME (VS CPU)</h3>
+                </button>
+                <button className={styles.vsPlayer}
+                    onClick={() => newGame('vsPlayer', player1Mark)}
+                    >
+                        <h3>NEW GAME (VS PLAYER)</h3>
+                </button>
             </section>
         </div>
     );

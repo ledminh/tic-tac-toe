@@ -8,7 +8,9 @@ export type ScorePanelType = 'X' | 'O' | 'TIES';
 
 export type PlayerType = 'player1' | 'player2' | 'CPU';
 
-// export type GameType = 'vsCPU' | 'vsPlayer';
+export type GameType = 'vsCPU' | 'vsPlayer';
+
+export type MarkType = 'X' | 'O';
 
 
 // export interface LocalStorageData  {
