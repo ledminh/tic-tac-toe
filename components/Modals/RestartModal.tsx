@@ -1,4 +1,5 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
+import { DataContext } from "../../useData";
 
 import Modal from "./Modal";
 
@@ -7,6 +8,7 @@ import styles from './RestartModal.module.scss';
 
 const RestartModal:FunctionComponent<{showModal: boolean, setShowModal: (show:boolean) => void}> = ({showModal, setShowModal}) => {
 
+    const {restart} = useContext(DataContext);
 
     return (
         <Modal onClose={() => setShowModal(false)}
@@ -19,7 +21,14 @@ const RestartModal:FunctionComponent<{showModal: boolean, setShowModal: (show:bo
                 >
                     NO, CANCEL
                 </button>
-                <button className={styles.yes}>YES, RESTART</button>
+                <button className={styles.yes}
+                    onClick={() => {
+                        restart();
+                        setShowModal(false);
+                    }}
+                    >
+                        YES, RESTART
+                    </button>
             </div>            
         </Modal>
     )
