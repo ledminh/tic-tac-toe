@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import styles from '../styles/Home.module.scss'
 
@@ -16,8 +16,17 @@ const Home: NextPage = () => {
   
   const {isStarted} = useContext(DataContext);
 
-  const {showGameOverModal, showRestartModal} = useContext(UIContext);
+  const {setShowGameOverModal, showGameOverModal, showRestartModal} = useContext(UIContext);
 
+  const {winner, XPlayer, OPlayer} = useContext(DataContext);
+
+  useEffect(() => {
+    if(winner !==  null) {
+      setShowGameOverModal(true);
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [winner]);
 
   return (
     <>

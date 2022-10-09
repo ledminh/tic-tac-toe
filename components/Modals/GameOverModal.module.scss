@@ -24,7 +24,14 @@
         font-size: 1.7rem;
         font-weight: 700;
         letter-spacing: 2.5px;
-        color: base.$color1;
+
+        &.X {
+            color: base.$color1;
+        }  
+
+        &.O {
+            color: base.$color3;
+        }
     }
 }
 
