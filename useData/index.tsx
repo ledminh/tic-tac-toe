@@ -21,7 +21,9 @@ type DataType = {
     OPlayer: PlayerType,
     winner: 'X' | 'O' | 'none' | null,
     newGame: (g:GameType, m:MarkType) => void,
-    cellOnClickHandle: (row:number,c:number) => void
+    cellOnClickHandle: (row:number,c:number) => void,
+    restart: () => void,
+    nextRound: () => void
 }
 
 
@@ -37,7 +39,9 @@ const defaultData:DataType = {
     OPlayer: 'player2',
     winner: null,
     newGame: (g,m) => {},
-    cellOnClickHandle: (r,c) => {}
+    cellOnClickHandle: (r,c) => {},
+    restart: ()=> {},
+    nextRound: () => {}
 
 }
 
@@ -50,16 +54,16 @@ const useData = () => {
     const [gameType, _setGameType] = useState<GameType|null>(null);
 
     const [turn, _setTurn] = useState<'X'|'O'>('X');
-    const [board, setBoard] = useState<BoardState>(initBoard);
+    const [board, _setBoard] = useState<BoardState>(initBoard);
 
-    const [winner, setWinner] = useState<'X'|'O'|'none'|null>(null);
+    const [winner, _setWinner] = useState<'X'|'O'|'none'|null>(null);
  
     const [numXWins, setNumXWins] = useState<number>(0);
     const [numTies, setNumTies] = useState<number>(0);
     const [numOWins, setNumOWins] = useState<number>(0);
 
-    const [XPlayer, setXPlayer] = useState<PlayerType>('player2');
-    const [OPlayer, setOPlayer] = useState<PlayerType>('CPU');
+    const [XPlayer, _setXPlayer] = useState<PlayerType|null>(null);
+    const [OPlayer, _setOPlayer] = useState<PlayerType|null>(null);
 
     
     const _setCellState = (stateToSet:CellState, row: number, col:number) => {
@@ -73,7 +77,7 @@ const useData = () => {
         })) as BoardState;
 
     
-        setBoard(newBoard);
+        _setBoard(newBoard);
 
     }
 
@@ -83,15 +87,15 @@ const useData = () => {
 
         if(winner === 'X') {
             setNumXWins(numXWins + 1);
-            setWinner('X');
+            _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
         }
         else if(winner === 'O') {
             setNumOWins(numOWins + 1);
-            setWinner('O');
+            _setWinner('O');
         }
         else if (winner === 'tie') {
             setNumTies(numTies + 1);
-            setWinner('none');
+            _setWinner('none');
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,22 +108,22 @@ const useData = () => {
 
         if(gameType === 'vsCPU') {
             if(player1Mark === 'X') {
-                setXPlayer('player1');
-                setOPlayer('CPU');
+                _setXPlayer('player1');
+                _setOPlayer('CPU');
             }
             else {
-                setXPlayer('CPU');
-                setOPlayer('player1');
+                _setXPlayer('CPU');
+                _setOPlayer('player1');
             }
         }
         else {
             if(player1Mark === 'X') {
-                setXPlayer('player1');
-                setOPlayer('player2');
+                _setXPlayer('player1');
+                _setOPlayer('player2');
             }
             else {
-                setXPlayer('player2');
-                setOPlayer('player1');
+                _setXPlayer('player2');
+                _setOPlayer('player1');
             }
         }
 
@@ -135,9 +139,24 @@ const useData = () => {
     }
 
 
+    const restart = () => {
+        _setIsStarted(false);
+        _setGameType(null);
+        _setTurn('X');
+        _setBoard(initBoard);
+        _setWinner(null);
+
+        _setXPlayer(null);
+        _setOPlayer(null);
+    }
 
 
+    const nextRound = () => {
+        _setTurn('X');
+        _setBoard(initBoard);
+        _setWinner(null);
 
+    }
 
 
     return {
@@ -152,7 +171,9 @@ const useData = () => {
         OPlayer,
         winner,
         newGame,
-        cellOnClickHandle
+        cellOnClickHandle,
+        restart,
+        nextRound
     }
 }
 

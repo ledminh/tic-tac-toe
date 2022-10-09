@@ -10,7 +10,7 @@ import { DataContext } from "../../useData";
 
 const GameOverModal:FunctionComponent<{showModal: boolean, setShowModal: (show:boolean) => void}> = ({showModal, setShowModal}) => {
     
-    const {winner, gameType, XPlayer, OPlayer} = useContext(DataContext);
+    const {winner, gameType, XPlayer, restart, nextRound} = useContext(DataContext);
 
 
     return (
@@ -56,8 +56,24 @@ const GameOverModal:FunctionComponent<{showModal: boolean, setShowModal: (show:b
                     </>
             }
             <div className={styles.buttons}>
-                <button className={styles.quit}>QUIT</button>
-                <button className={styles.nextRound}>NEXT ROUND</button>
+                <button className={styles.quit}
+                    onClick={() => {
+                                    setShowModal(false);
+                                    restart();
+                                    }
+                    }
+                >
+                    QUIT
+                </button>
+                <button className={styles.nextRound}
+                    onClick={() => {
+                        setShowModal(false);
+                        nextRound();
+                        }
+                    }
+                    >
+                        NEXT ROUND
+                </button>
             </div>            
         </Modal>
     )
