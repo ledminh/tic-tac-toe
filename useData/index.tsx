@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BoardState, CellState, GameType, MarkType, PlayerType } from "../typesAndInterfaces";
 
 import getWinner from "../utils/getWinner";
+import cpuMove from "../utils/cpuMove";
 
 const initBoard:BoardState = [
     ['empty', 'empty', 'empty'],
@@ -65,8 +66,11 @@ const useData = () => {
     const [XPlayer, _setXPlayer] = useState<PlayerType|null>(null);
     const [OPlayer, _setOPlayer] = useState<PlayerType|null>(null);
 
+    const [numMoves, _setNumMoves] = useState<number>(0);
     
     const _setCellState = (stateToSet:CellState, row: number, col:number) => {
+        _setNumMoves(numMoves + 1);
+
         const newBoard = board.map((r, iR) => r.map((c, iC) => {
             if(iR === row && iC === col) {
                 return stateToSet;
@@ -97,9 +101,23 @@ const useData = () => {
             setNumTies(numTies + 1);
             _setWinner('none');
         }
+        else if(gameType === 'vsCPU') {
+            if((turn === 'X' && XPlayer === 'CPU')
+                || (turn === 'O' && OPlayer === 'CPU')
+                ) {
+                
+                const [iR, iC] = cpuMove(turn, board);
+
+                _setCellState(turn,iR, iC);
+                _setTurn(turn === 'X'? 'O' : 'X');
+            }
+        }
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [board]);
+
+
 
     /***************************************/
     
@@ -148,6 +166,8 @@ const useData = () => {
 
         _setXPlayer(null);
         _setOPlayer(null);
+        
+        _setNumMoves(0);
     }
 
 

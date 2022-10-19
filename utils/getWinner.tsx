@@ -24,7 +24,6 @@ export default function getWinner (board:BoardState): 'X' |'O' |'tie'|null {
         return board[0][2] === 'X' ? 'X' : 'O';
 
 
-    let isFull = true;
 
     for(let iR = 0; iR < board.length; iR++) {
         for(let iC = 0; iC < board[iR].length; iC ++) {
