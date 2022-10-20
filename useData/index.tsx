@@ -90,26 +90,34 @@ const useData = () => {
         const winner = getWinner(board);
 
         if(winner === 'X') {
-            setNumXWins(numXWins + 1);
-            _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
+            setTimeout(() => {
+                setNumXWins(numXWins + 1);
+                _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
+            }, 1000);
         }
         else if(winner === 'O') {
-            setNumOWins(numOWins + 1);
-            _setWinner('O');
+            setTimeout(() => {
+                setNumOWins(numOWins + 1);
+                _setWinner('O');
+            }, 1000);
         }
         else if (winner === 'tie') {
-            setNumTies(numTies + 1);
-            _setWinner('none');
+            setTimeout(() => {
+                setNumTies(numTies + 1);
+                _setWinner('none');
+            }, 1000);
         }
         else if(gameType === 'vsCPU') {
             if((turn === 'X' && XPlayer === 'CPU')
                 || (turn === 'O' && OPlayer === 'CPU')
                 ) {
                 
-                const [iR, iC] = cpuMove(turn, board);
-
-                _setCellState(turn,iR, iC);
-                _setTurn(turn === 'X'? 'O' : 'X');
+                    setTimeout(() => {
+                        const [iR, iC] = cpuMove(turn, board);
+        
+                        _setCellState(turn,iR, iC);
+                        _setTurn(turn === 'X'? 'O' : 'X');
+                    }, 500);
             }
         }
 
