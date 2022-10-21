@@ -8,7 +8,7 @@ function cpuMove(myMark:CellState, board:BoardState): [number, number] {
         const newBoard = cloneBoard(curBoard);
         newBoard[row][col] = curMark;
                 
-        const winner = getWinner(newBoard);
+        const {winner} = getWinner(newBoard);
 
         if(winner === myMark) { // 'I' (computer) wins
             return 10 - depth;
