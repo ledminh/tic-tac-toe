@@ -11,7 +11,9 @@ import { DataContext } from "../../useData";
 
 const Cell:FunctionComponent<{currentState:CellState, row: number, col:number}> = ({currentState, row, col}) => {
     
-    const {cellOnClickHandle, cellsWin} = useContext(DataContext);
+    const {cellOnClickHandle, cellsWin, turn} = useContext(DataContext);
+
+    const [hover, setHover] = useState(false);
 
     let lightUp = false;
 
@@ -25,22 +27,39 @@ const Cell:FunctionComponent<{currentState:CellState, row: number, col:number}> 
 
     return (
         <div className={styles.cell + (lightUp? ' ' + styles['lightUp' + currentState]: '')}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
             onClick={() => cellOnClickHandle(row,col)}
             >
             {
                 currentState === 'O'?
-                    <div className={styles.OIcon}>
+                    <div className={styles.OIcon + ' ' + styles.display}>
                         <OIcon
-                            viewBox="0 0 64 64"
+                            viewBox="0 0 66 66"
                             fill={lightUp? '#1A2A33' : "#F2B137"}
                         />
                     </div>
-                    
                     : currentState === 'X'?
-                    <div className={styles.XIcon}>
+                    <div className={styles.XIcon + ' ' + styles.display}>
                         <XIcon
                             viewBox="0 0 64 64"
                             fill={lightUp? '#1A2A33' : "#31C3BD"}
+                        />
+                    </div>
+                    : turn === 'X' && hover?
+                    <div className={styles.XIcon}>
+                        <XIcon
+                            viewBox="0 0 64 64"
+                            stroke="#111111"
+                            fill="transparent"
+                        />
+                    </div>
+                    : turn === 'O' && hover?
+                    <div className={styles.OIcon}>
+                        <OIcon
+                            viewBox="0 0 66 66"
+                            stroke="#111111"
+                            fill="transparent"
                         />
                     </div>
                     : null

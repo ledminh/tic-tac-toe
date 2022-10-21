@@ -54,6 +54,9 @@
     width: 50%;
     height: 50%;
 
-    animation: appear .4s;
+    &.display {
+        animation: appear .4s;
+    }
+
 
 } 
