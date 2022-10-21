@@ -20,7 +20,21 @@
     justify-content: center;
     align-items: center;    
 
+    &.lightUpX {
+        background-color: base.$color2;
+        box-shadow: inset 0px -8px 0px #118C87;
+
+    }
+
+    &.lightUpO {
+        background-color: base.$color3;
+        box-shadow: inset 0px -8px 0px #CC8B13;
+    }
+
 }
+
+
+
 
 @keyframes appear {
     0% {

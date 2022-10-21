@@ -21,6 +21,7 @@ type DataType = {
     XPlayer: PlayerType,
     OPlayer: PlayerType,
     winner: 'X' | 'O' | 'none' | null,
+    cellsWin: [{row: number, col:number}, {row: number, col:number},{row: number, col:number}] |null,
     newGame: (g:GameType, m:MarkType) => void,
     cellOnClickHandle: (row:number,c:number) => void,
     restart: () => void,
@@ -39,6 +40,7 @@ const defaultData:DataType = {
     XPlayer: 'player1',
     OPlayer: 'player2',
     winner: null,
+    cellsWin: null,
     newGame: (g,m) => {},
     cellOnClickHandle: (r,c) => {},
     restart: ()=> {},
@@ -58,6 +60,7 @@ const useData = () => {
     const [board, _setBoard] = useState<BoardState>(initBoard);
 
     const [winner, _setWinner] = useState<'X'|'O'|'none'|null>(null);
+    const [cellsWin, _setCellsWin] = useState<[{row:number, col:number},{row:number, col:number},{row:number, col:number}]|null>(null);
  
     const [numXWins, setNumXWins] = useState<number>(0);
     const [numTies, setNumTies] = useState<number>(0);
@@ -66,10 +69,8 @@ const useData = () => {
     const [XPlayer, _setXPlayer] = useState<PlayerType|null>(null);
     const [OPlayer, _setOPlayer] = useState<PlayerType|null>(null);
 
-    const [numMoves, _setNumMoves] = useState<number>(0);
     
     const _setCellState = (stateToSet:CellState, row: number, col:number) => {
-        _setNumMoves(numMoves + 1);
 
         const newBoard = board.map((r, iR) => r.map((c, iC) => {
             if(iR === row && iC === col) {
@@ -87,18 +88,20 @@ const useData = () => {
 
     //check if there is a winner after each turn
     useEffect(() => {
-        const winner = getWinner(board);
+        const {winner, cells} = getWinner(board);
 
         if(winner === 'X') {
             setTimeout(() => {
                 setNumXWins(numXWins + 1);
                 _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
+                _setCellsWin(cells);
             }, 1000);
         }
         else if(winner === 'O') {
             setTimeout(() => {
                 setNumOWins(numOWins + 1);
                 _setWinner('O');
+                _setCellsWin(cells);
             }, 1000);
         }
         else if (winner === 'tie') {
@@ -175,7 +178,7 @@ const useData = () => {
         _setXPlayer(null);
         _setOPlayer(null);
         
-        _setNumMoves(0);
+        _setCellsWin(null);
     }
 
 
@@ -183,6 +186,7 @@ const useData = () => {
         _setTurn('X');
         _setBoard(initBoard);
         _setWinner(null);
+        _setCellsWin(null);
 
     }
 
@@ -198,6 +202,7 @@ const useData = () => {
         XPlayer,
         OPlayer,
         winner,
+        cellsWin,
         newGame,
         cellOnClickHandle,
         restart,
