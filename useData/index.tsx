@@ -95,20 +95,20 @@ const useData = () => {
                 setNumXWins(numXWins + 1);
                 _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
                 _setCellsWin(cells);
-            }, 1000);
+            }, 500);
         }
         else if(winner === 'O') {
             setTimeout(() => {
                 setNumOWins(numOWins + 1);
                 _setWinner('O');
                 _setCellsWin(cells);
-            }, 1000);
+            }, 500);
         }
         else if (winner === 'tie') {
             setTimeout(() => {
                 setNumTies(numTies + 1);
                 _setWinner('none');
-            }, 1000);
+            }, 500);
         }
         else if(gameType === 'vsCPU') {
             if((turn === 'X' && XPlayer === 'CPU')
@@ -161,7 +161,8 @@ const useData = () => {
     }
 
     const cellOnClickHandle = (row:number, col:number) => {
-        if(board[row][col] === 'empty'){
+        
+        if(winner === null && board[row][col] === 'empty'){
             _setCellState(turn, row, col);
             _setTurn(turn === 'O'? 'X' : 'O');
         }
