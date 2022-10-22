@@ -1,21 +1,41 @@
-import { GameType, LocalStorageData } from "./typesAndInterfaces"
+import { BoardState, GameType } from "./typesAndInterfaces";
 
+interface LocalStorageDataFull {
+    savedData: {
+        isStarted: true,
+        gameType: GameType,
+        turn: 'X' | 'O',
+        board: BoardState,
+        numXWins: number,
+        numTies: number,
+        numOWins: number,
+        XPlayer: 'player1' | 'player2' | 'CPU',
+        OPlayer: 'player1' | 'player2' | 'CPU'
+    }
+}
 
+interface LocalStorageDataEmpty {
+    savedData: {
+        isStarted: false
+    }
+}
 
+type LocalStorageData = LocalStorageDataFull | LocalStorageDataEmpty;
 
+export const load = () => {
+    let strData = localStorage.getItem('tictactoeData');
+    let data: LocalStorageData;
 
-/*
-    loadData is called when:
-        -   Start game: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
-        -   Start a new game: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
-        -   Restart: {turn: null, X: null, O: null, gameOverStatus: null, boardState: null}
-        -   In a middle of a game.
-*/
+    if(strData === null) {
+        data = {
+            savedData: {
+                isStarted: false
+            }
+        }
+    }
+    else {
+        data = JSON.parse(strData);
+    }
 
-export const loadData: (type:GameType) => LocalStorageData['vsCPU'] | LocalStorageData['vsPlayer'] | null = (type: GameType) => {
-    const strData = localStorage.getItem('tictactoeData');
-    
-    if(strData === null) return null;
-
-    return JSON.parse(strData)[type];
+    return data;
 }

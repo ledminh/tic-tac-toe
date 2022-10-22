@@ -4,6 +4,8 @@ import { BoardState, CellState, GameType, MarkType, PlayerType } from "../typesA
 import getWinner from "../utils/getWinner";
 import cpuMove from "../utils/cpuMove";
 
+import * as LocalStorage from '../LocalStorage';
+
 const initBoard:BoardState = [
     ['empty', 'empty', 'empty'],
     ['empty', 'empty', 'empty'],
@@ -53,7 +55,8 @@ export const DataContext = React.createContext<DataType>(defaultData);
 const useData = () => {
     
     const [isStarted, _setIsStarted] = useState<boolean>(false);
-
+    
+    
     const [gameType, _setGameType] = useState<GameType|null>(null);
 
     const [turn, _setTurn] = useState<'X'|'O'>('X');
@@ -84,7 +87,27 @@ const useData = () => {
     
         _setBoard(newBoard);
 
+        LocalStorage.updateSavedData({board: newBoard});
     }
+
+    useEffect(() => {
+        const lsData = LocalStorage.load();
+
+        if(lsData.savedData.isStarted){
+            _setIsStarted(lsData.savedData.isStarted);
+            
+            _setGameType(lsData.savedData.gameType);
+            _setTurn(lsData.savedData.turn);
+            _setBoard(lsData.savedData.board);
+            
+            setNumXWins(lsData.savedData.numXWins);
+            setNumTies(lsData.savedData.numTies);
+            setNumOWins(lsData.savedData.numOWins);
+            _setXPlayer(lsData.savedData.XPlayer);
+            _setOPlayer(lsData.savedData.OPlayer);
+        }
+
+    }, []);
 
     //check if there is a winner after each turn
     useEffect(() => {
@@ -118,9 +141,11 @@ const useData = () => {
                     const [iR, iC] = cpuMove(turn, board);
 
                     setTimeout(() => {
-        
                         _setCellState(turn,iR, iC);
+
                         _setTurn(turn === 'X'? 'O' : 'X');
+                        LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
+
                     }, 500);
             }
         }
@@ -130,7 +155,7 @@ const useData = () => {
     }, [board]);
 
 
-
+    // Make CPU plays the first move if it goes first.
     useEffect(() => {
         if(gameType === 'vsCPU') {
             if((turn === 'X' && XPlayer === 'CPU')
@@ -140,41 +165,64 @@ const useData = () => {
                     const [iR, iC] = cpuMove(turn, board);
                 
                     _setCellState(turn,iR, iC);
+
                     _setTurn(turn === 'X'? 'O' : 'X');
+                    LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
             }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameType]);
 
 
+
     /***************************************/
     
     const newGame = (gameType:GameType, player1Mark:MarkType) => {
-        _setGameType(gameType);
+
+        let xPlayer:PlayerType, oPlayer:PlayerType;
 
         if(gameType === 'vsCPU') {
             if(player1Mark === 'X') {
-                _setXPlayer('player1');
-                _setOPlayer('CPU');
+                xPlayer = 'player1';
+                oPlayer = 'CPU';
+                // _setXPlayer('player1');
+                // _setOPlayer('CPU');
             }
             else {
-                _setXPlayer('CPU');
-                _setOPlayer('player1');
+                xPlayer = 'CPU';
+                oPlayer = 'player1';
             }
         }
         else {
             if(player1Mark === 'X') {
-                _setXPlayer('player1');
-                _setOPlayer('player2');
+                xPlayer = 'player1';
+                oPlayer = 'player2';
             }
             else {
-                _setXPlayer('player2');
-                _setOPlayer('player1');
+                xPlayer = 'player2';
+                oPlayer = 'player1';
             }
         }
 
+        _setGameType(gameType);
+
+        _setXPlayer(xPlayer);
+        _setOPlayer(oPlayer);
+        
         _setTurn('X');
+   
         _setIsStarted(true);
+
+        LocalStorage.updateSavedData({
+            gameType: gameType,
+            XPlayer: xPlayer,
+            OPlayer: oPlayer,
+            turn: 'X',
+            isStarted: true
+        });
+
+
+   
     }
 
     const cellOnClickHandle = (row:number, col:number) => {
@@ -182,6 +230,7 @@ const useData = () => {
         if(winner === null && board[row][col] === 'empty'){
             _setCellState(turn, row, col);
             _setTurn(turn === 'O'? 'X' : 'O');
+            LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
         }
     }
 
@@ -197,6 +246,10 @@ const useData = () => {
         _setOPlayer(null);
         
         _setCellsWin(null);
+
+        LocalStorage.updateSavedData({
+            isStarted: false
+        });
     }
 
 
