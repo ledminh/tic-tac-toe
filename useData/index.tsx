@@ -143,6 +143,7 @@ const useData = () => {
                     _setTurn(turn === 'X'? 'O' : 'X');
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameType]);
 
 
