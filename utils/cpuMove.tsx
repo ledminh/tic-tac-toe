@@ -3,22 +3,20 @@ import { BoardState, CellState } from "../typesAndInterfaces";
 import getWinner from '../utils/getWinner';
 
 function cpuMove(myMark:CellState, board:BoardState): [number, number] {    
-
+    
     const getScore = (curBoard:BoardState, curMark:CellState, row: number, col:number, depth: number):number => {
         const newBoard = cloneBoard(curBoard);
-        newBoard[row][col] = curMark;
-                
+        newBoard[row][col] = curMark; 
+        
         const {winner} = getWinner(newBoard);
 
         if(winner === myMark) { // 'I' (computer) wins
-            return 10 - depth;
-        
+            return 10 + depth;
         }
         else if (winner === 'tie') {
             return 0;
         }
         else if(winner === null) {
-
             const scores: {score:number, row:number, col: number}[] = [];
 
             for(let r = 0; r < newBoard.length; r++) {
@@ -45,10 +43,11 @@ function cpuMove(myMark:CellState, board:BoardState): [number, number] {
                 }
             }
 
-            if(curMark === myMark) return scoreMax;
-            else return scoreMin;
+            if(curMark === myMark) return scoreMin;
+            else return scoreMax;
         }
         else { //player wins
+
             return -10 + depth;
         }
     
@@ -78,7 +77,7 @@ function cpuMove(myMark:CellState, board:BoardState): [number, number] {
         }
     }  
 
-    
+
     return [r, c];
 }
 

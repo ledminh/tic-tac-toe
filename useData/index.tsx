@@ -91,32 +91,33 @@ const useData = () => {
         const {winner, cells} = getWinner(board);
 
         if(winner === 'X') {
+            setNumXWins(numXWins + 1);
+            _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
+
             setTimeout(() => {
-                setNumXWins(numXWins + 1);
-                _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
                 _setCellsWin(cells);
             }, 500);
         }
         else if(winner === 'O') {
+            setNumOWins(numOWins + 1);
+            _setWinner('O');
+
             setTimeout(() => {
-                setNumOWins(numOWins + 1);
-                _setWinner('O');
                 _setCellsWin(cells);
             }, 500);
         }
         else if (winner === 'tie') {
-            setTimeout(() => {
-                setNumTies(numTies + 1);
-                _setWinner('none');
-            }, 500);
+            setNumTies(numTies + 1);
+            _setWinner('none');
         }
         else if(gameType === 'vsCPU') {
             if((turn === 'X' && XPlayer === 'CPU')
                 || (turn === 'O' && OPlayer === 'CPU')
                 ) {
-                
+                    
+                    const [iR, iC] = cpuMove(turn, board);
+
                     setTimeout(() => {
-                        const [iR, iC] = cpuMove(turn, board);
         
                         _setCellState(turn,iR, iC);
                         _setTurn(turn === 'X'? 'O' : 'X');
@@ -128,6 +129,21 @@ const useData = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [board]);
 
+
+
+    useEffect(() => {
+        if(gameType === 'vsCPU') {
+            if((turn === 'X' && XPlayer === 'CPU')
+            || (turn === 'O' && OPlayer === 'CPU')
+            ) {
+                    
+                    const [iR, iC] = cpuMove(turn, board);
+                
+                    _setCellState(turn,iR, iC);
+                    _setTurn(turn === 'X'? 'O' : 'X');
+            }
+        }
+    }, [gameType]);
 
 
     /***************************************/

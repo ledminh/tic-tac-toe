@@ -18,11 +18,13 @@ const Home: NextPage = () => {
 
   const {setShowGameOverModal, showGameOverModal, showRestartModal} = useContext(UIContext);
 
-  const {winner, XPlayer, OPlayer} = useContext(DataContext);
+  const {winner} = useContext(DataContext);
 
   useEffect(() => {
     if(winner !==  null) {
-      setShowGameOverModal(true);
+      setTimeout(() => {
+        setShowGameOverModal(true);
+      }, 500);
     }
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
