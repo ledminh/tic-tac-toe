@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext } from "react";
+import { BoardState } from "../../typesAndInterfaces";
 import { DataContext } from "../../useData";
 
 import styles from './Board.module.scss';
@@ -14,7 +15,7 @@ const Board:FunctionComponent = () => {
     return (
         <div className={styles.board}>
             {
-                board.map((row, iR) => (
+                (board as BoardState).map((row, iR) => (
                     <React.Fragment key={iR}>
                         {
                             row.map((cellState, iC) => (
