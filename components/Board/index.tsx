@@ -13,9 +13,10 @@ const Board:FunctionComponent = () => {
     const {board} = useContext(DataContext);
     
     return (
+        board !== null?
         <div className={styles.board}>
             {
-                (board as BoardState).map((row, iR) => (
+                board.map((row, iR) => (
                     <React.Fragment key={iR}>
                         {
                             row.map((cellState, iC) => (
@@ -30,7 +31,7 @@ const Board:FunctionComponent = () => {
                     </React.Fragment>
                 ))
             }
-        </div>
+        </div>: null
     );
 }
 
