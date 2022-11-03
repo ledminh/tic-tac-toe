@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://tic-tac-39g1msp79-ledminh.vercel.app/)
+- Live Site URL: [Tic Tac Toe](https://tic-tac-39g1msp79-ledminh.vercel.app/)
 
 ## My process
 
