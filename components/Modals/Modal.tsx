@@ -13,7 +13,7 @@ const Modal:FunctionComponent<{show:boolean, onClose: () => void, children:JSX.E
 
     const modalContent = show ? (
         <div className={styles.modalOverlay}
-                onClick={() => onClose()}
+                onClick={() => {}}
             >
             <div className={styles.modal}
                 onClick={(e) => {

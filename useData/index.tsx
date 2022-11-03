@@ -60,14 +60,14 @@ const useData = () => {
     const [gameType, _setGameType] = useState<GameType|null>(null);
 
     const [turn, _setTurn] = useState<'X'|'O'>('X');
-    const [board, _setBoard] = useState<BoardState>(initBoard);
+    const [board, _setBoard] = useState<BoardState|null>(null);
 
     const [winner, _setWinner] = useState<'X'|'O'|'none'|null>(null);
     const [cellsWin, _setCellsWin] = useState<[{row:number, col:number},{row:number, col:number},{row:number, col:number}]|null>(null);
  
-    const [numXWins, setNumXWins] = useState<number>(0);
-    const [numTies, setNumTies] = useState<number>(0);
-    const [numOWins, setNumOWins] = useState<number>(0);
+    const [numXWins, setNumXWins] = useState<number|null>(null);
+    const [numTies, setNumTies] = useState<number|null>(null);
+    const [numOWins, setNumOWins] = useState<number|null>(null);
 
     const [XPlayer, _setXPlayer] = useState<PlayerType|null>(null);
     const [OPlayer, _setOPlayer] = useState<PlayerType|null>(null);
@@ -75,7 +75,7 @@ const useData = () => {
     
     const _setCellState = (stateToSet:CellState, row: number, col:number) => {
 
-        const newBoard = board.map((r, iR) => r.map((c, iC) => {
+        const newBoard = (board as BoardState).map((r, iR) => r.map((c, iC) => {
             if(iR === row && iC === col) {
                 return stateToSet;
             }
@@ -87,50 +87,84 @@ const useData = () => {
     
         _setBoard(newBoard);
 
-        LocalStorage.updateSavedData({board: newBoard});
+        LocalStorage.updateStateData({board: newBoard});
     }
 
-    useEffect(() => {
-        const lsData = LocalStorage.load();
 
-        if(lsData.savedData.isStarted){
-            _setIsStarted(lsData.savedData.isStarted);
-            
-            _setGameType(lsData.savedData.gameType);
-            _setTurn(lsData.savedData.turn);
-            _setBoard(lsData.savedData.board);
-            
-            setNumXWins(lsData.savedData.numXWins);
-            setNumTies(lsData.savedData.numTies);
-            setNumOWins(lsData.savedData.numOWins);
-            _setXPlayer(lsData.savedData.XPlayer);
-            _setOPlayer(lsData.savedData.OPlayer);
+    useEffect(() => {
+        const lsState = LocalStorage.loadState();
+
+        if(lsState === null) { //first time and not start
+            LocalStorage.init();
         }
+        else if(lsState.isStarted){ // playing
+
+            _setIsStarted(lsState.isStarted);
+            
+            const scores = LocalStorage.loadScores(lsState.gameType);
+
+            const {winner, cells} = getWinner(lsState.board);
+            let numOWins = scores.numOWins,
+                numXWins = scores.numXWins,
+                numTies = scores.numTies;
+
+            if(winner === 'O'){
+                numOWins--;
+            }
+            else if(winner === 'X'){
+                numXWins--;
+            }
+            else if(winner === 'tie') {
+                numTies--;
+            }
+
+
+            setNumOWins(numOWins);
+            setNumXWins(numXWins);
+            setNumTies(numTies);
+
+
+
+            _setGameType(lsState.gameType);
+            _setTurn(lsState.turn);
+            _setBoard(lsState.board);
+            
+            _setXPlayer(lsState.XPlayer);
+            _setOPlayer(lsState.OPlayer);
+
+
+
+            
+
+        }
+
 
     }, []);
 
     //check if there is a winner after each turn
     useEffect(() => {
+        if(board === null) return;
+        
         const {winner, cells} = getWinner(board);
 
         if(winner === 'X') {
-            setNumXWins(numXWins + 1);
             _setWinner('X'); // after winner changes, the useEffect on page/index.tsx will make GameOverModal shows up 
 
             setTimeout(() => {
                 _setCellsWin(cells);
+                setNumXWins(numXWins as number + 1);
             }, 500);
         }
         else if(winner === 'O') {
-            setNumOWins(numOWins + 1);
             _setWinner('O');
 
             setTimeout(() => {
                 _setCellsWin(cells);
+                setNumOWins(numOWins as number+ 1);
             }, 500);
         }
-        else if (winner === 'tie') {
-            setNumTies(numTies + 1);
+        else if(winner === 'tie') {
+            setNumTies(numTies as number + 1);
             _setWinner('none');
         }
         else if(gameType === 'vsCPU') {
@@ -144,8 +178,7 @@ const useData = () => {
                         _setCellState(turn,iR, iC);
 
                         _setTurn(turn === 'X'? 'O' : 'X');
-                        LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
-
+                        LocalStorage.updateStateData({turn: turn === 'X'? 'O' : 'X'});
                     }, 500);
             }
         }
@@ -157,23 +190,38 @@ const useData = () => {
 
     // Make CPU plays the first move if it goes first.
     useEffect(() => {
-        if(gameType === 'vsCPU') {
+
+        if(isStarted && winner === null && gameType === 'vsCPU') {
             if((turn === 'X' && XPlayer === 'CPU')
             || (turn === 'O' && OPlayer === 'CPU')
             ) {
                     
-                    const [iR, iC] = cpuMove(turn, board);
+                    const [iR, iC] = cpuMove(turn, board as BoardState);
                 
                     _setCellState(turn,iR, iC);
 
                     _setTurn(turn === 'X'? 'O' : 'X');
-                    LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
+                    LocalStorage.updateStateData({turn: turn === 'X'? 'O' : 'X'});
+
+
             }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameType]);
+    }, [isStarted]);
 
 
+    useEffect(() => {
+        if(numOWins === null || numXWins === null || numTies === null) return;
+
+        LocalStorage.updateScores(gameType as GameType, {
+            numXWins: numXWins as number,
+            numOWins: numOWins as number,
+            numTies: numTies as number
+        });
+
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [numXWins, numOWins, numTies]);
 
     /***************************************/
     
@@ -185,8 +233,6 @@ const useData = () => {
             if(player1Mark === 'X') {
                 xPlayer = 'player1';
                 oPlayer = 'CPU';
-                // _setXPlayer('player1');
-                // _setOPlayer('CPU');
             }
             else {
                 xPlayer = 'CPU';
@@ -204,39 +250,49 @@ const useData = () => {
             }
         }
 
+        
         _setGameType(gameType);
-
+        _setTurn('X');
+        
+        _setBoard(initBoard);
+        
         _setXPlayer(xPlayer);
         _setOPlayer(oPlayer);
         
-        _setTurn('X');
-   
         _setIsStarted(true);
+        
+        
 
-        LocalStorage.updateSavedData({
+        LocalStorage.updateStateData({
+            isStarted: true,
             gameType: gameType,
+            turn: 'X',
+            board: board as BoardState,
             XPlayer: xPlayer,
             OPlayer: oPlayer,
-            turn: 'X',
-            isStarted: true
         });
 
+        const scores = LocalStorage.loadScores(gameType);
 
-   
+        setNumXWins(scores.numXWins);
+        setNumOWins(scores.numOWins);
+        setNumTies(scores.numTies);
     }
 
     const cellOnClickHandle = (row:number, col:number) => {
         
-        if(winner === null && board[row][col] === 'empty'){
+        if(winner === null && (board as BoardState)[row][col] === 'empty'){
             _setCellState(turn, row, col);
             _setTurn(turn === 'O'? 'X' : 'O');
-            LocalStorage.updateSavedData({turn: turn === 'X'? 'O' : 'X'});
+            LocalStorage.updateStateData({turn: turn === 'X'? 'O' : 'X'});
         }
     }
 
 
     const restart = () => {
+        
         _setIsStarted(false);
+
         _setGameType(null);
         _setTurn('X');
         _setBoard(initBoard);
@@ -247,9 +303,10 @@ const useData = () => {
         
         _setCellsWin(null);
 
-        LocalStorage.updateSavedData({
-            isStarted: false
+        LocalStorage.updateStateData({
+            isStarted: false,
         });
+   
     }
 
 
@@ -259,6 +316,10 @@ const useData = () => {
         _setWinner(null);
         _setCellsWin(null);
 
+        LocalStorage.updateStateData({
+            board: initBoard,
+            turn: 'X'
+        })
     }
 
 
