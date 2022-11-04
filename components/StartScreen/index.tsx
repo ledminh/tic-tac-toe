@@ -23,6 +23,7 @@ const StartScreen:FunctionComponent = () => {
                 <div className={styles.markButtons}>
                     <button className={styles.markButton + (player1Mark === 'X'? (' ' + styles.current): '')}
                         onClick={() => setPlayer1Mark('X')}
+                        ariel-label="pick player 1's mark X"
                     >
                         <div className={styles.imgX}>
                             <Xsvg 
@@ -34,6 +35,7 @@ const StartScreen:FunctionComponent = () => {
                     </button>
                     <button className={styles.markButton + (player1Mark === 'O'? (' ' + styles.current): '')}
                         onClick={() => setPlayer1Mark('O')}
+                        ariel-label="pick player 1's mark O"
                     >
                         <div className={styles.imgO}>
                             <Osvg 
@@ -49,11 +51,13 @@ const StartScreen:FunctionComponent = () => {
             <section className={styles.buttons}>
                 <button className={styles.vsCPU}
                     onClick={() => newGame('vsCPU', player1Mark)}
+                    ariel-label="vsCPU"
                     >
                         <h3>NEW GAME (VS CPU)</h3>
                 </button>
                 <button className={styles.vsPlayer}
                     onClick={() => newGame('vsPlayer', player1Mark)}
+                    ariel-label="vsPlayer"
                     >
                         <h3>NEW GAME (VS PLAYER)</h3>
                 </button>
